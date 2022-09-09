@@ -1,8 +1,10 @@
 import {} from '@dapplets/dapplet-extension';
 import EXAMPLE_IMG from './icons/ex08.png';
+import HIDE_ICON from './icons/hide-icon.png'
 import GRAY_IMG from './icons/ex08-gray.png';
 import GOOGLE_IMG from './icons/ex08-quatro.png';
 import HI_GIF from './imgs/giphy.gif';
+import { hide_hidden_tokens } from './utils';
 
 const searchResults = [
   {
@@ -40,6 +42,9 @@ export default class GoogleFeature {
 
   activate(): void {
     const { button, result } = this.adapter.exports;
+
+    hide_hidden_tokens()
+
     this.adapter.attachConfig({
       MENU: (ctx) =>
         button({
@@ -81,6 +86,98 @@ export default class GoogleFeature {
           },
           // LP end
         }),
+      HIDE_TOKEN_BUTTON: (ctx: any) => {
+        let token_box = ctx.insertPoint;
+        const desc = token_box.querySelector('div > div.desc > span > a')
+        console.log("tui goi ne, ", desc);
+        if (desc === undefined) {
+          return;
+        }
+        return button({
+          initial: 'DEFAULT',
+          DEFAULT: {
+            label: 'hide',
+            tooltip: 'Show in the alert',
+            img: HIDE_ICON,
+            exec: (_, me) => {
+              let token_box = ctx.insertPoint;
+              const desc = token_box.querySelector('div > div.desc > span')
+              if (desc.querySelector('a') === undefined) return;
+              
+              token_box.style.display = 'none'
+              
+              console.log("tinguyen before ", desc.title)
+              
+              // ctx.insertPoint.remove()
+              let hidden_tokens = localStorage.hidden_tokens
+              
+              if (hidden_tokens === undefined) hidden_tokens = []
+              else hidden_tokens = JSON.parse(hidden_tokens)
+                
+              hidden_tokens.push(desc.title)
+              
+              localStorage.setItem("hidden_tokens", JSON.stringify(hidden_tokens));
+              // ctx.insertPoint.style.display = 'none';
+              // const newElement = document.createElement(null);
+              // ctx.insertPoint.parentElement.appendChild(newElement)
+              // console.log("tinguyen, ", localStorage.hidden_tokens);
+              // newElement.outerHTML = localStorage.hidden_tokens;
+            },
+          },
+          NONE: {
+            label: 'none',
+            tooltip: 'none',
+            img: HIDE_ICON,
+            exec: () => {
+              console.log("test tin ne ", ctx.insertPoint)
+              ctx.insertPoint.remove()
+              let hidden_tokens = localStorage.hidden_tokens
+              
+              if (hidden_tokens === undefined) hidden_tokens = []
+              else hidden_tokens = JSON.parse(hidden_tokens)
+                
+              hidden_tokens.push(ctx.insertPoint.outerHTML)
+              
+              localStorage.setItem("hidden_tokens", JSON.stringify(hidden_tokens));
+              // ctx.insertPoint.style.display = 'none';
+              // const newElement = document.createElement(null);
+              // ctx.insertPoint.parentElement.appendChild(newElement)
+              // console.log("tinguyen, ", localStorage.hidden_tokens);
+              // newElement.outerHTML = localStorage.hidden_tokens;
+            },
+          }
+        })
+      },
+      SHOW_ALL_BUTTON: (ctx) =>
+        button({
+          initial: 'SHOW',
+          SHOW: {
+            label: 'Show all tokens',
+            tooltip: 'Show in the alert',
+            img: HIDE_ICON,
+            // LP: 4. add the execution - allert with search results: title, link, description
+            exec: (_, me) => {
+              me.state = 'HIDE'
+              const listToken = document.querySelectorAll('div > div.token-box')
+              listToken.forEach(e => {
+                e.style.display = 'flex';
+              });
+            },
+            // LP end
+          },
+          HIDE: {
+            label: 'Hide hidden tokens',
+            tooltip: 'Show in the alert',
+            img: HIDE_ICON,
+            // LP: 4. add the execution - allert with search results: title, link, description
+            exec: (_, me) => {
+              me.state = 'SHOW'
+              hide_hidden_tokens()
+            },
+            // LP end
+          },
+        }),
+
       SEARCH_RESULT: (ctx) =>
         button({
           initial: 'DEFAULT',

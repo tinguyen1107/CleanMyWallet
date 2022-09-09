@@ -38,6 +38,9 @@ export class Button {
 
   public static contextInsPoints = {
     MENU: 'MENU',
+    NFT_EXTEND_BUTTON: 'NFT_EXTEND_BUTTON',
+    HIDE_TOKEN_BUTTON: 'HIDE_TOKEN_BUTTON',
+    SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
     SEARCH_RESULT: 'SEARCH_RESULT',
     DAPPLET_SEARCH_RESULT: 'DAPPLET_SEARCH_RESULT',
   };
@@ -65,7 +68,7 @@ export class Button {
       this.el.innerHTML = `
         <div style="margin: 1px 1px 0; padding: 16px 12px 12px 10px;
           ${isActive ? 'border-bottom: 3px solid #1a73e8; ' : 'border-bottom: none; '}
-          display: inline; cursor: pointer;"
+          display: inline; cursor: pointer; background: #ff0"
           ${tooltip ? `title="${tooltip}"` : ''}
         >
           <img style="width: 20px; margin-right: 5px; margin-bottom: -5px;" src="${img}"/>
@@ -87,10 +90,33 @@ export class Button {
           ${tooltip ? `title="${tooltip}"` : ''}
         >
           <img style="width: 20px; margin-right: 1em; margin-bottom: 3px;" src="${img}"/>
-          <div style="display: inline-block; font-size: 1.1em; color: #F5504A; font-weight: bold;">${label}</div>
+          <div style="display: inline-block; font-size: 1.1em; color: #555; font-weight: 200;">${label}</div>
+        </div>
+      `;
+    } else if (
+      this.insPointName === 'HIDE_TOKEN_BUTTON'
+    ) {
+      this.el.innerHTML = `
+        <div 
+          style="display: flex; align-items: center; cursor: pointer;"
+          ${tooltip ? `title="${tooltip}"` : ''}
+        >
+          <img style="width: 20px; margin-right: 1em; margin-bottom: 3px;" src="${img}"/>
+        </div>
+      `;
+    } else if (
+      this.insPointName === 'SHOW_ALL_BUTTON'
+    ) {
+      this.el.innerHTML = `
+        <div 
+          style="display: flex; align-items: center; cursor: pointer;"
+          ${tooltip ? `title="${tooltip}"` : ''}
+        >
+          <span>${label}</span>
         </div>
       `;
     }
+
     // LP end
   }
 
@@ -105,6 +131,8 @@ export class Button {
       this.el.classList.add('dapplet-widget-menu');
     } else if (
       this.insPointName === 'SEARCH_RESULT' ||
+      this.insPointName === 'HIDE_TOKEN_BUTTON' ||
+      this.insPointName === 'SHOW_ALL_BUTTON' ||
       this.insPointName === 'DAPPLET_SEARCH_RESULT'
     ) {
       this.el.classList.add('dapplet-widget-results');

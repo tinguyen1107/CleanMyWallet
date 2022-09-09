@@ -33,6 +33,40 @@ export default class GoogleAdapter {
         insertPoint: '#rcnt, .mJxzWe',
       }),
     },
+    HIDE_TOKEN_BUTTON: {
+      containerSelector: '#app-container',
+      contextSelector: '.left > div > .token-box',
+      insPoints: {
+        HIDE_TOKEN_BUTTON: {
+          selector: '.token-box > div > div.balance',
+          insert: 'begin',
+        },
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      contextBuilder: (searchNode: any): ContextBuilder => ({
+        id: "id-ne",
+        title: "title ne",
+        link: "link ne",
+        insertPoint: searchNode 
+      }),
+    },
+    SHOW_ALL_BUTTON: {
+      containerSelector: '#app-container',
+      contextSelector: '.left > .tokens',
+      insPoints: {
+        SHOW_ALL_BUTTON: {
+          selector: 'span',
+        },
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      contextBuilder: (searchNode: any): ContextBuilder => ({
+        id: "id-ne",
+        title: "title ne",
+        link: "link ne",
+        description: "hello",
+        insertPoint: searchNode, 
+      }),
+    },
     SEARCH_RESULT: {
       containerSelector: '#search',
       contextSelector: '#rso > .g .jtfYYd, #rso > div > .g .jtfYYd, #rso > div > div > .g .jtfYYd, .MjjYud',
