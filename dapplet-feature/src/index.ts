@@ -5,6 +5,7 @@ import GRAY_IMG from './icons/ex08-gray.png';
 import GOOGLE_IMG from './icons/ex08-quatro.png';
 import HI_GIF from './imgs/giphy.gif';
 import { hide_hidden_tokens } from './utils';
+import { HIDDEN_TOKENS_KEY } from './constants';
 
 const searchResults = [
     {
@@ -109,14 +110,15 @@ export default class GoogleFeature {
                             console.log('tinguyen before ', desc.title);
 
                             // ctx.insertPoint.remove()
-                            let hidden_tokens = localStorage.hidden_tokens;
+                            const raw = localStorage.getItem(HIDDEN_TOKENS_KEY);
+                            let hiddenTokens: any
 
-                            if (hidden_tokens === undefined) hidden_tokens = [];
-                            else hidden_tokens = JSON.parse(hidden_tokens);
+                            if (!raw) hiddenTokens = [];
+                            else hiddenTokens = JSON.parse(raw);
 
-                            hidden_tokens.push(desc.title);
+                            hiddenTokens.push(desc.title);
 
-                            localStorage.setItem('hidden_tokens', JSON.stringify(hidden_tokens));
+                            localStorage.setItem(HIDDEN_TOKENS_KEY, JSON.stringify(hiddenTokens));
                             // ctx.insertPoint.style.display = 'none';
                             // const newElement = document.createElement(null);
                             // ctx.insertPoint.parentElement.appendChild(newElement)
