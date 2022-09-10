@@ -5,7 +5,7 @@ import GRAY_IMG from './icons/ex08-gray.png';
 import GOOGLE_IMG from './icons/ex08-quatro.png';
 import HI_GIF from './imgs/giphy.gif';
 import { hide_hidden_tokens } from './utils';
-import { HIDDEN_TOKENS_KEY } from './constants';
+import { HIDDEN_TOKENS_KEY, SHOW_TOKEN_STATE_KEY } from './constants';
 
 const searchResults = [
     {
@@ -45,6 +45,14 @@ export default class GoogleFeature {
         const { button, result } = this.adapter.exports;
 
         hide_hidden_tokens();
+        const iconScript = document.createElement('script');
+        document.head.appendChild(iconScript);
+        iconScript.setAttribute('src', 'https://kit.fontawesome.com/3954a9e6ce.js');
+        iconScript.setAttribute('crossorigin', 'anonymous');
+        iconScript.onload = () => {
+            console.log("handle on loaded")
+        }
+
 
         this.adapter.attachConfig({
             MENU: (ctx) =>
@@ -91,23 +99,31 @@ export default class GoogleFeature {
                 const token_box = ctx.insertPoint;
                 const desc = token_box.querySelector('div > div.desc > span > a');
                 console.log('tui goi ne, ', desc);
-                if (desc === undefined) {
+                if (!desc) {
                     return;
                 }
+
+                const title = token_box.querySelector('div.desc > span').getAttribute('title');
+                
+                const hidden_tokens = localStorage.getItem(HIDDEN_TOKENS_KEY);
+                const isHide = (hidden_tokens && hidden_tokens.includes(title))
+                
                 return button({
-                    initial: 'DEFAULT',
+                    initial: isHide ? 'HIDE' : 'DEFAULT',
                     DEFAULT: {
                         label: 'hide',
                         tooltip: 'Show in the alert',
                         img: HIDE_ICON,
+                        icon: 'far fa-eye-slash',
                         exec: (_, me) => {
                             const token_box = ctx.insertPoint;
                             const desc = token_box.querySelector('div > div.desc > span');
                             if (desc.querySelector('a') === undefined) return;
 
-                            token_box.style.display = 'none';
-
-                            console.log('tinguyen before ', desc.title);
+                            const show_token_state = localStorage.getItem(SHOW_TOKEN_STATE_KEY);
+                            if (!show_token_state || show_token_state == 'hide')
+                                token_box.style.display = 'none';
+                            me.state = 'HIDE'
 
                             // ctx.insertPoint.remove()
                             const raw = localStorage.getItem(HIDDEN_TOKENS_KEY);
@@ -126,26 +142,28 @@ export default class GoogleFeature {
                             // newElement.outerHTML = localStorage.hidden_tokens;
                         },
                     },
-                    NONE: {
-                        label: 'none',
-                        tooltip: 'none',
+                    HIDE: {
+                        label: 'show',
+                        tooltip: 'Show this token as default',
                         img: HIDE_ICON,
-                        exec: () => {
-                            console.log('test tin ne ', ctx.insertPoint);
-                            ctx.insertPoint.remove();
-                            let hidden_tokens = localStorage.hidden_tokens;
+                        icon: 'far fa-eye',
+                        exec: (_, me) => {
+                            const token_box = ctx.insertPoint;
+                            const desc = token_box.querySelector('div > div.desc > span');
+                            if (desc.querySelector('a') === undefined) return;
 
-                            if (hidden_tokens === undefined) hidden_tokens = [];
-                            else hidden_tokens = JSON.parse(hidden_tokens);
+                            token_box.style.display = 'flex';
+                            me.state = 'DEFAULT'
 
-                            hidden_tokens.push(ctx.insertPoint.outerHTML);
+                            const raw = localStorage.getItem(HIDDEN_TOKENS_KEY);
+                            let hiddenTokens: any
 
-                            localStorage.setItem('hidden_tokens', JSON.stringify(hidden_tokens));
-                            // ctx.insertPoint.style.display = 'none';
-                            // const newElement = document.createElement(null);
-                            // ctx.insertPoint.parentElement.appendChild(newElement)
-                            // console.log("tinguyen, ", localStorage.hidden_tokens);
-                            // newElement.outerHTML = localStorage.hidden_tokens;
+                            if (!raw) hiddenTokens = [];
+                            else hiddenTokens = JSON.parse(raw);
+
+                            hiddenTokens = hiddenTokens.filter(e => e !== desc.title);
+
+                            localStorage.setItem(HIDDEN_TOKENS_KEY, JSON.stringify(hiddenTokens));
                         },
                     },
                 });
@@ -164,6 +182,7 @@ export default class GoogleFeature {
                             listToken.forEach((e) => {
                                 e.style.display = 'flex';
                             });
+                            localStorage.setItem(SHOW_TOKEN_STATE_KEY, 'show_all')
                         },
                         // LP end
                     },
@@ -175,6 +194,7 @@ export default class GoogleFeature {
                         exec: (_, me) => {
                             me.state = 'SHOW';
                             hide_hidden_tokens();
+                            localStorage.setItem(SHOW_TOKEN_STATE_KEY, 'hide')
                         },
                         // LP end
                     },

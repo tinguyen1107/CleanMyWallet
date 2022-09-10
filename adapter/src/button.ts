@@ -17,6 +17,7 @@ const addStyles = (): void => {
 export interface IButtonState {
     img: string;
     label: string;
+    icon: string;
     loading: boolean;
     disabled: boolean;
     hidden: boolean;
@@ -52,7 +53,7 @@ export class Button {
             stylesAdded = true;
         }
 
-        const { img, label, hidden, tooltip, isActive } = this.state;
+        const { img, label, icon, hidden, tooltip, isActive } = this.state;
 
         if (hidden) {
             this.el.innerHTML = '';
@@ -99,7 +100,7 @@ export class Button {
           style="display: flex; align-items: center; cursor: pointer;"
           ${tooltip ? `title="${tooltip}"` : ''}
         >
-          <img style="width: 20px; margin-right: 1em; margin-bottom: 3px;" src="${img}"/>
+          <i class="${icon}" style="margin-top: 3px"></i>
         </div>
       `;
         } else if (this.insPointName === 'SHOW_ALL_BUTTON') {

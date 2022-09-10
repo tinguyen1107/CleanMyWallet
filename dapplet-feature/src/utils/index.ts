@@ -7,7 +7,7 @@ export const hide_hidden_tokens = () => {
         listToken.forEach((element) => {
             const title = element.querySelector('div.desc > span').getAttribute('title');
             
-            if (title != '' && hidden_tokens.includes(title)) {
+            if (hidden_tokens.includes(title)) {
                 element.style.display = 'none';
             }
         });
