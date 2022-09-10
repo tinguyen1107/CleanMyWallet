@@ -1,7 +1,7 @@
 {
-  "name": "example8.dapplet-base.eth",
+  "name": "clean-my-wallet.dapplet-base.eth",
   "version": "0.2.0",
-  "description": "Ex08: New Site specific adapter",
+  "description": "Clean My Wallet",
   "main": "lib/index.js",
   "scripts": {
     "start": "rollup -w --config rollup.config.js",

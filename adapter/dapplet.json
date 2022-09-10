@@ -6,7 +6,13 @@
   "title": "Google Adapter",
   "description": { "$ref": "package.json#/description" },
   "main": { "$ref": "package.json#/main" },
-  "contextIds": ["google.com", "www.google.com"],
+  "contextIds": [
+    "wallet.testnet.near.org", 
+    "wallet.mainnet.near.org",
+    "wallet.near.org",
+    "google.com",
+    "www.google.com"
+  ],
   "dependencies": {
     "dynamic-adapter.dapplet-base.eth": "0.6.13"
   }
