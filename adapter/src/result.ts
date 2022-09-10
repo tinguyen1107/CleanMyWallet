@@ -1,39 +1,39 @@
 export interface IResultState {
-  hidden: boolean;
-  img: string;
-  title: string;
-  searchResults: {
+    hidden: boolean;
+    img: string;
     title: string;
-    link: string;
-    description: string;
-  }[];
-  disabled: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  exec: (ctx: any, me: IResultState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  init: (ctx: any, me: IResultState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ctx: any;
+    searchResults: {
+        title: string;
+        link: string;
+        description: string;
+    }[];
+    disabled: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exec: (ctx: any, me: IResultState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    init: (ctx: any, me: IResultState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ctx: any;
 }
 
 export class Result {
-  public el: HTMLElement;
-  public state: IResultState;
+    public el: HTMLElement;
+    public state: IResultState;
 
-  public static contextInsPoints = {
-    WIDGETS: 'WIDGETS',
-  };
+    public static contextInsPoints = {
+        WIDGETS: 'WIDGETS',
+    };
 
-  public mount(): void {
-    if (!this.el) this._createElement();
+    public mount(): void {
+        if (!this.el) this._createElement();
 
-    const { img, title, searchResults, hidden } = this.state;
+        const { img, title, searchResults, hidden } = this.state;
 
-    if (hidden) {
-      this.el.innerHTML = '';
-      return;
-    } else {
-      this.el.innerHTML = `
+        if (hidden) {
+            this.el.innerHTML = '';
+            return;
+        } else {
+            this.el.innerHTML = `
         <div class="uPYAZc mfMhoc">
           <title-with-lhs-icon>
             <div class="iv236">
@@ -48,8 +48,8 @@ export class Result {
         </div>
         <div class='hlcw0c-dapp'>
           ${searchResults
-            .map(
-              (searchResult) => `
+              .map(
+                  (searchResult) => `
                 <div class="g">
                   <h2 class="Uo8X3b">Web results</h2>
                   <div class="tF2Cxc">
@@ -63,28 +63,28 @@ export class Result {
                     </div>
                   </div>
                 </div>`,
-            )
-            .join('')}
+              )
+              .join('')}
         </div>
       `;
+        }
     }
-  }
 
-  public unmount(): void {
-    this.el && this.el.remove();
-  }
+    public unmount(): void {
+        this.el && this.el.remove();
+    }
 
-  private _createElement() {
-    this.el = document.createElement('div');
-    this.el.style.border = '1px solid #EB9EA4';
-    this.el.style.borderRadius = '8px';
-    this.el.style.marginBottom = '30px';
-    this.el.style.padding = '28px 0 10px 28px';
-    this.el.addEventListener('click', () => {
-      if (!this.state.disabled) {
-        this.state.exec?.(this.state.ctx, this.state);
-      }
-    });
-    this.state.init?.(this.state.ctx, this.state);
-  }
+    private _createElement() {
+        this.el = document.createElement('div');
+        this.el.style.border = '1px solid #EB9EA4';
+        this.el.style.borderRadius = '8px';
+        this.el.style.marginBottom = '30px';
+        this.el.style.padding = '28px 0 10px 28px';
+        this.el.addEventListener('click', () => {
+            if (!this.state.disabled) {
+                this.state.exec?.(this.state.ctx, this.state);
+            }
+        });
+        this.state.init?.(this.state.ctx, this.state);
+    }
 }

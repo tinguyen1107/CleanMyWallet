@@ -139,7 +139,7 @@ Let's implement at the public method **`mount`** of the class `Button` the HTML 
 ```ts
 const activeNavEl: HTMLElement = document.querySelector('.hdtb-msel, .rQEFy');
 if (this.insPointName === 'MENU') {
-  this.el.innerHTML = `
+    this.el.innerHTML = `
     <div style="margin: 1px 1px 0; padding: 16px 12px 12px 10px;
       ${isActive ? 'border-bottom: 3px solid #1a73e8; ' : 'border-bottom: none; '}
       display: inline; cursor: pointer;"
@@ -147,15 +147,15 @@ if (this.insPointName === 'MENU') {
     >
       <img style="width: 20px; margin-right: 5px; margin-bottom: -3px;" src="${img}"/>
       <div style="display: inline-block; font-size: 13px; line-hight: 16px; ${
-        isActive
-          ? 'color: #1a73e8;'
-          : '-webkit-tap-highlight-color: rgba(0,0,0,.10); color: #5f6368;'
+          isActive
+              ? 'color: #1a73e8;'
+              : '-webkit-tap-highlight-color: rgba(0,0,0,.10); color: #5f6368;'
       }">${label}</div>
     </div>
   `;
-  activeNavEl.style.borderBottom = isActive ? 'none' : '3px solid #1a73e8';
+    activeNavEl.style.borderBottom = isActive ? 'none' : '3px solid #1a73e8';
 } else if (this.insPointName === 'SEARCH_RESULT') {
-  this.el.innerHTML = `
+    this.el.innerHTML = `
     <div 
       style="display: flex; align-items: center; cursor: pointer;"
       ${tooltip ? `title="${tooltip}"` : ''}
@@ -364,31 +364,31 @@ WIDGETS: () =>
 
 ```ts
 const searchResults = [
-  {
-    title: 'Types of Clouds | NOAA SciJinks - All About Weather',
-    link: 'https://scijinks.gov/clouds/',
-    description:
-      'Mammatus clouds. Mammatus clouds are actually altocumulus, cirrus,\
+    {
+        title: 'Types of Clouds | NOAA SciJinks - All About Weather',
+        link: 'https://scijinks.gov/clouds/',
+        description:
+            'Mammatus clouds. Mammatus clouds are actually altocumulus, cirrus,\
       cumulonimbus, or other types of clouds that have these pouch-like shapes hanging \
       out of the bottom. The pouches are created when cold air within the cloud sinks down \
       toward the Earth. Weather prediction: Severe weather might be on its way!',
-  },
-  {
-    title: 'Clouds—facts and information - Science',
-    link: 'https://www.nationalgeographic.com/science/article/clouds-1',
-    description:
-      'Altostratus clouds may portend a storm. Nimbostratus clouds are thick \
+    },
+    {
+        title: 'Clouds—facts and information - Science',
+        link: 'https://www.nationalgeographic.com/science/article/clouds-1',
+        description:
+            'Altostratus clouds may portend a storm. Nimbostratus clouds are thick \
       and dark and can produce both rain and snow. Low clouds fall into four divisions: \
       cumulus, stratus, cumulonimbus, and ...',
-  },
-  {
-    title: 'Types of Clouds | Live Science',
-    link: 'https://www.livescience.com/29436-clouds.html',
-    description:
-      'Clouds of great vertical development: These are the cumulonimbus clouds, \
+    },
+    {
+        title: 'Types of Clouds | Live Science',
+        link: 'https://www.livescience.com/29436-clouds.html',
+        description:
+            'Clouds of great vertical development: These are the cumulonimbus clouds, \
       often called a thunderhead because torrential rain, vivid lightning and thunder come \
       from it. The tops of such clouds may ...',
-  },
+    },
 ];
 ```
 
