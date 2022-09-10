@@ -1,8 +1,8 @@
 let stylesAdded = false;
 
 const addStyles = (): void => {
-  const styleTag: HTMLStyleElement = document.createElement('style');
-  styleTag.innerHTML = `
+    const styleTag: HTMLStyleElement = document.createElement('style');
+    styleTag.innerHTML = `
     .dapplet-widget-menu {
       display: inline-block;
     }
@@ -11,61 +11,61 @@ const addStyles = (): void => {
       display: block;
     }
   `;
-  document.head.appendChild(styleTag);
+    document.head.appendChild(styleTag);
 };
 
 export interface IButtonState {
-  img: string;
-  label: string;
-  loading: boolean;
-  disabled: boolean;
-  hidden: boolean;
-  tooltip: string;
-  isActive: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  exec: (ctx: any, me: IButtonState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  init: (ctx: any, me: IButtonState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ctx: any;
-  insPointName: string;
+    img: string;
+    label: string;
+    loading: boolean;
+    disabled: boolean;
+    hidden: boolean;
+    tooltip: string;
+    isActive: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exec: (ctx: any, me: IButtonState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    init: (ctx: any, me: IButtonState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ctx: any;
+    insPointName: string;
 }
 
 export class Button {
-  public el: HTMLElement;
-  public state: IButtonState;
-  insPointName: string;
+    public el: HTMLElement;
+    public state: IButtonState;
+    insPointName: string;
 
-  public static contextInsPoints = {
-    MENU: 'MENU',
-    NFT_EXTEND_BUTTON: 'NFT_EXTEND_BUTTON',
-    HIDE_TOKEN_BUTTON: 'HIDE_TOKEN_BUTTON',
-    SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
-    SEARCH_RESULT: 'SEARCH_RESULT',
-    DAPPLET_SEARCH_RESULT: 'DAPPLET_SEARCH_RESULT',
-  };
+    public static contextInsPoints = {
+        MENU: 'MENU',
+        NFT_EXTEND_BUTTON: 'NFT_EXTEND_BUTTON',
+        HIDE_TOKEN_BUTTON: 'HIDE_TOKEN_BUTTON',
+        SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
+        SEARCH_RESULT: 'SEARCH_RESULT',
+        DAPPLET_SEARCH_RESULT: 'DAPPLET_SEARCH_RESULT',
+    };
 
-  public mount(): void {
-    if (!this.el) this._createElement();
-    if (!stylesAdded) {
-      addStyles();
-      stylesAdded = true;
-    }
+    public mount(): void {
+        if (!this.el) this._createElement();
+        if (!stylesAdded) {
+            addStyles();
+            stylesAdded = true;
+        }
 
-    const { img, label, hidden, tooltip, isActive } = this.state;
+        const { img, label, hidden, tooltip, isActive } = this.state;
 
-    if (hidden) {
-      this.el.innerHTML = '';
-      this.el.style.display = 'none';
-      return;
-    } else {
-      this.el.style.removeProperty('display');
-    }
+        if (hidden) {
+            this.el.innerHTML = '';
+            this.el.style.display = 'none';
+            return;
+        } else {
+            this.el.style.removeProperty('display');
+        }
 
-    // LP: 2. implement the button HTML with label, image and tooltip for two insert points: MENU and SEARCH_RESULT
-    const activeNavEl: HTMLElement = document.querySelector('.hdtb-msel, .rQEFy');
-    if (this.insPointName === 'MENU') {
-      this.el.innerHTML = `
+        // LP: 2. implement the button HTML with label, image and tooltip for two insert points: MENU and SEARCH_RESULT
+        const activeNavEl: HTMLElement = document.querySelector('.hdtb-msel, .rQEFy');
+        if (this.insPointName === 'MENU') {
+            this.el.innerHTML = `
         <div style="margin: 1px 1px 0; padding: 16px 12px 12px 10px;
           ${isActive ? 'border-bottom: 3px solid #1a73e8; ' : 'border-bottom: none; '}
           display: inline; cursor: pointer; background: #ff0"
@@ -73,18 +73,18 @@ export class Button {
         >
           <img style="width: 20px; margin-right: 5px; margin-bottom: -5px;" src="${img}"/>
           <div style="display: inline-block; font-size: 13px; line-hight: 16px; ${
-            isActive
-              ? 'color: #1a73e8;'
-              : '-webkit-tap-highlight-color: rgba(0,0,0,.10); color: #5f6368;'
+              isActive
+                  ? 'color: #1a73e8;'
+                  : '-webkit-tap-highlight-color: rgba(0,0,0,.10); color: #5f6368;'
           }">${label}</div>
         </div>
       `;
-      activeNavEl.style.borderBottom = isActive ? 'none' : '3px solid #1a73e8';
-    } else if (
-      this.insPointName === 'SEARCH_RESULT' ||
-      this.insPointName === 'DAPPLET_SEARCH_RESULT'
-    ) {
-      this.el.innerHTML = `
+            activeNavEl.style.borderBottom = isActive ? 'none' : '3px solid #1a73e8';
+        } else if (
+            this.insPointName === 'SEARCH_RESULT' ||
+            this.insPointName === 'DAPPLET_SEARCH_RESULT'
+        ) {
+            this.el.innerHTML = `
         <div 
           style="display: flex; align-items: center; cursor: pointer;"
           ${tooltip ? `title="${tooltip}"` : ''}
@@ -93,10 +93,8 @@ export class Button {
           <div style="display: inline-block; font-size: 1.1em; color: #555; font-weight: 200;">${label}</div>
         </div>
       `;
-    } else if (
-      this.insPointName === 'HIDE_TOKEN_BUTTON'
-    ) {
-      this.el.innerHTML = `
+        } else if (this.insPointName === 'HIDE_TOKEN_BUTTON') {
+            this.el.innerHTML = `
         <div 
           style="display: flex; align-items: center; cursor: pointer;"
           ${tooltip ? `title="${tooltip}"` : ''}
@@ -104,10 +102,8 @@ export class Button {
           <img style="width: 20px; margin-right: 1em; margin-bottom: 3px;" src="${img}"/>
         </div>
       `;
-    } else if (
-      this.insPointName === 'SHOW_ALL_BUTTON'
-    ) {
-      this.el.innerHTML = `
+        } else if (this.insPointName === 'SHOW_ALL_BUTTON') {
+            this.el.innerHTML = `
         <div 
           style="display: flex; align-items: center; cursor: pointer;"
           ${tooltip ? `title="${tooltip}"` : ''}
@@ -115,34 +111,34 @@ export class Button {
           <span>${label}</span>
         </div>
       `;
+        }
+
+        // LP end
     }
 
-    // LP end
-  }
-
-  public unmount(): void {
-    this.el && this.el.remove();
-  }
-
-  private _createElement() {
-    this.el = document.createElement('div');
-    // LP: 3. add styles for the element depending on the insertion point
-    if (this.insPointName === 'MENU') {
-      this.el.classList.add('dapplet-widget-menu');
-    } else if (
-      this.insPointName === 'SEARCH_RESULT' ||
-      this.insPointName === 'HIDE_TOKEN_BUTTON' ||
-      this.insPointName === 'SHOW_ALL_BUTTON' ||
-      this.insPointName === 'DAPPLET_SEARCH_RESULT'
-    ) {
-      this.el.classList.add('dapplet-widget-results');
+    public unmount(): void {
+        this.el && this.el.remove();
     }
-    // LP end
-    this.el.addEventListener('click', () => {
-      if (!this.state.disabled) {
-        this.state.exec?.(this.state.ctx, this.state);
-      }
-    });
-    this.state.init?.(this.state.ctx, this.state);
-  }
+
+    private _createElement() {
+        this.el = document.createElement('div');
+        // LP: 3. add styles for the element depending on the insertion point
+        if (this.insPointName === 'MENU') {
+            this.el.classList.add('dapplet-widget-menu');
+        } else if (
+            this.insPointName === 'SEARCH_RESULT' ||
+            this.insPointName === 'HIDE_TOKEN_BUTTON' ||
+            this.insPointName === 'SHOW_ALL_BUTTON' ||
+            this.insPointName === 'DAPPLET_SEARCH_RESULT'
+        ) {
+            this.el.classList.add('dapplet-widget-results');
+        }
+        // LP end
+        this.el.addEventListener('click', () => {
+            if (!this.state.disabled) {
+                this.state.exec?.(this.state.ctx, this.state);
+            }
+        });
+        this.state.init?.(this.state.ctx, this.state);
+    }
 }
