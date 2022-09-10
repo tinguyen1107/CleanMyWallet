@@ -1,7 +1,7 @@
 {
     "name": "clean-my-wallet.dapplet-base.eth",
     "version": "0.2.0",
-    "description": "Ex08: New Site specific adapter",
+    "description": "Clean my NEAR wallet",
     "main": "index.js",
     "scripts": {
         "postinstall": "concurrently -c \"yellow,magenta\" -n \"adapter,dapplet\" \"cd adapter && npm i\" \"cd dapplet-feature && npm i\"",
