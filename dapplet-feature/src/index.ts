@@ -142,7 +142,7 @@ export default class GoogleFeature {
                         exec: (_, me) => {
                             me.state = 'HIDE';
                             const listToken = document.querySelectorAll('div > div.token-box');
-                            listToken.forEach((e) => {
+                            listToken.forEach((e: HTMLElement) => {
                                 e.style.display = 'flex';
                             });
                             localStorage.setItem(SHOW_TOKEN_STATE_KEY, 'show_all');
@@ -230,6 +230,7 @@ export default class GoogleFeature {
                 });
             },
             SHOW_ALL_NFT_COLLECTION_BUTTON: (ctx) => {
+              console.log('ctx', ctx)
                 let url = document.URL
                 if (!url.includes("tab=collectibles"))
                     return
@@ -244,7 +245,7 @@ export default class GoogleFeature {
                         exec: (_, me) => {
                             me.state = 'HIDE';
                             const listToken = document.querySelectorAll('div > div.nft-box');
-                            listToken.forEach((e) => {
+                            listToken.forEach((e: HTMLElement) => {
                                 e.style.display = 'flex';
                             });
                             localStorage.setItem(SHOW_NFT_COLLECTION_STATE_KEY, 'show_all');
