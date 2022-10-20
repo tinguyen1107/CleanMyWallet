@@ -8,7 +8,8 @@ const addStyles = (): void => {
     }
 
     .dapplet-widget-results {
-      display: block;
+      display: flex;
+      justify-content: center;
     }
   `;
     document.head.appendChild(styleTag);

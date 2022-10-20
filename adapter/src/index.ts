@@ -73,12 +73,12 @@ export default class GoogleAdapter {
             }),
         },
         SHOW_ALL_NFT_COLLECTION_BUTTON: {
-            containerSelector: '#app-container',
-            contextSelector: '.left',
+            containerSelector: '.sc-lcepkR.kEbpqt',
+            contextSelector: '',
             insPoints: {
-                SHOW_ALL_NFT_COLLECTION_BUTTON: {
-                    selector: '.tab-selector',
-                    insert: 'end',
+              SHOW_ALL_NFT_COLLECTION_BUTTON: {
+                    selector: 'div:nth-child(1)',
+                    insert: 'begin',
                 },
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
