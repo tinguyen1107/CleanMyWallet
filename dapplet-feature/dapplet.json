@@ -6,7 +6,7 @@
     "title": "Clean My Wallet",
     "description": { "$ref": "package.json#/description" },
     "main": { "$ref": "package.json#/main" },
-    "icon": "src/icons/CleanMyWalletIcon.png",
+    "icon": "src/assets/icons/CleanMyWalletIcon.png",
     "contextIds": ["example-google-adapter.dapplet-base.eth"],
     "config": {
         "schema": "config/schema.json",

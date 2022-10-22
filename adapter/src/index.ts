@@ -20,6 +20,23 @@ export default class GoogleAdapter {
     // LP: 1. implement communication between dapplets and pages
     public config = {
         // TOKEN
+        TOKENS_TOOL_BAR: {
+            containerSelector: '#app-container',
+            contextSelector: '.left > div > .token-box',
+            insPoints: {
+                HIDE_TOKEN_BUTTON: {
+                    selector: '.token-box > div > div.balance',
+                    insert: 'begin',
+                },
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            contextBuilder: (searchNode: any): ContextBuilder => ({
+                id: 'id-ne',
+                title: 'title ne',
+                link: 'link ne',
+                insertPoint: searchNode,
+            }),
+        },
         HIDE_TOKEN_BUTTON: {
             containerSelector: '#app-container',
             contextSelector: '.left > div > .token-box',
@@ -76,7 +93,7 @@ export default class GoogleAdapter {
             containerSelector: '.sc-lcepkR.kEbpqt',
             contextSelector: '',
             insPoints: {
-              SHOW_ALL_NFT_COLLECTION_BUTTON: {
+                SHOW_ALL_NFT_COLLECTION_BUTTON: {
                     selector: 'div:nth-child(1)',
                     insert: 'begin',
                 },

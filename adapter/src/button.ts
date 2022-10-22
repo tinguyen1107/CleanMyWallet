@@ -42,7 +42,7 @@ export class Button {
         HIDE_TOKEN_BUTTON: 'HIDE_TOKEN_BUTTON',
         SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
         HIDE_NFT_COLLECTION_BUTTON: 'HIDE_NFT_COLLECTION_BUTTON',
-        SHOW_ALL_NFT_COLLECTION_BUTTON: 'SHOW_ALL_NFT_COLLECTION_BUTTON'
+        SHOW_ALL_NFT_COLLECTION_BUTTON: 'SHOW_ALL_NFT_COLLECTION_BUTTON',
         // MENU: 'MENU',
         // NFT_EXTEND_BUTTON: 'NFT_EXTEND_BUTTON',
         // SEARCH_RESULT: 'SEARCH_RESULT',
@@ -74,7 +74,12 @@ export class Button {
             case 'HIDE_NFT_COLLECTION_BUTTON':
                 this.el.innerHTML = `
                     <div 
-                      style="display: flex; align-items: center; cursor: pointer; margin-left: 10px"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer; 
+                        margin-left: 10px;
+                      "
                       ${tooltip ? `title="${tooltip}"` : ''}
                     >
                       <i class="${icon}" style="margin-top: 3px"></i>
@@ -85,7 +90,12 @@ export class Button {
             case 'SHOW_ALL_NFT_COLLECTION_BUTTON':
                 this.el.innerHTML = `
                     <div 
-                      style="display: flex; align-items: center; cursor: pointer;"
+                      style="
+                        display: flex; 
+                        align-items: center;
+                        cursor: pointer;
+                        background-color: #f00;
+                      "
                       ${tooltip ? `title="${tooltip}"` : ''}
                     >
                       <span>${label}</span>
