@@ -43,10 +43,7 @@ export class Button {
         SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
         HIDE_NFT_COLLECTION_BUTTON: 'HIDE_NFT_COLLECTION_BUTTON',
         SHOW_ALL_NFT_COLLECTION_BUTTON: 'SHOW_ALL_NFT_COLLECTION_BUTTON',
-        // MENU: 'MENU',
-        // NFT_EXTEND_BUTTON: 'NFT_EXTEND_BUTTON',
-        // SEARCH_RESULT: 'SEARCH_RESULT',
-        // DAPPLET_SEARCH_RESULT: 'DAPPLET_SEARCH_RESULT',
+        REMOVE_TOKEN_BUTTON: 'REMOVE_TOKEN_BUTTON',
     };
 
     public mount(): void {
@@ -71,6 +68,7 @@ export class Button {
 
         switch (this.insPointName) {
             case 'HIDE_TOKEN_BUTTON':
+            case 'REMOVE_TOKEN_BUTTON':
             case 'HIDE_NFT_COLLECTION_BUTTON':
                 this.el.innerHTML = `
                     <div 
@@ -94,7 +92,6 @@ export class Button {
                         display: flex; 
                         align-items: center;
                         cursor: pointer;
-                        background-color: #f00;
                       "
                       ${tooltip ? `title="${tooltip}"` : ''}
                     >

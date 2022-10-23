@@ -1,90 +1,97 @@
-export interface IResultState {
-  hidden: boolean;
-  img: string;
-  title: string;
-  searchResults: {
-    title: string;
-    link: string;
-    description: string;
-  }[];
-  disabled: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  exec: (ctx: any, me: IResultState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  init: (ctx: any, me: IResultState) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ctx: any;
+let stylesAdded = false;
+
+const addStyles = (): void => {
+    const styleTag: HTMLStyleElement = document.createElement('style');
+    styleTag.innerHTML = `
+    .dapplet-widget-menu {
+      display: inline-block;
+    }
+
+    .dapplet-widget-tool-bar {
+        width: 100%;
+        height: 20px;
+        background-color: rgb(0, 114, 206);
+        display: flex;
+        justify-content: center;
+    }
+  `;
+    document.head.appendChild(styleTag);
+};
+
+export interface IBarState {
+    img: string;
+    label: string;
+    icon: string;
+    loading: boolean;
+    disabled: boolean;
+    hidden: boolean;
+    tooltip: string;
+    isActive: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exec: (ctx: any, me: IBarState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    init: (ctx: any, me: IBarState) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ctx: any;
+    insPointName: string;
 }
 
-export class Result {
-  public el: HTMLElement;
-  public state: IResultState;
+export class Bar {
+    public el: HTMLElement;
+    public state: IBarState;
+    insPointName: string;
 
-  public static contextInsPoints = {
-    TOKENS_TOOL_BAR: 'TOKENS_TOOL_BAR',
-  };
+    public static contextInsPoints = {
+        TOKEN_TOOL_BAR: 'TOKEN_TOOL_BAR',
+    };
 
-  public mount(): void {
-    if (!this.el) this._createElement();
+    public mount(): void {
+        if (!this.el) this._createElement();
+        if (!stylesAdded) {
+            addStyles();
+            stylesAdded = true;
+        }
 
-    const { img, title, searchResults, hidden } = this.state;
+        const { img, label, icon, hidden, tooltip, isActive } = this.state;
 
-    if (hidden) {
-      this.el.innerHTML = '';
-      return;
-    } else {
-      this.el.innerHTML = `
-        <div class="uPYAZc mfMhoc">
-          <title-with-lhs-icon>
-            <div class="iv236">
-              <span class="iJddsb" style="height:20px;width:20px">
-                <img src="${img}" alt="image for title">
-              </span>
-            </div>
-            <div class="iJ1Kvb">
-              <h3 class="GmE3X" aria-level="2" role="heading">Dapplet Search for ${title}</h3>
-            </div>
-          </title-with-lhs-icon>
-        </div>
-        <div class='hlcw0c-dapp'>
-          ${searchResults
-          .map(
-            (searchResult) => `
-                <div class="g">
-                  <h2 class="Uo8X3b">Web results</h2>
-                  <div class="tF2Cxc">
-                    <div class="yuRUbf">
-                      <a href="${searchResult.link}">
-                        <h3 class="LC20lb DKV0Md"><span>${searchResult.title}</span></h3>
-                      </a>
-                    </div>
-                    <div class="IsZvec">
-                      <div><span class="aCOpRe">${searchResult.description}</span></div>
-                    </div>
-                  </div>
-                </div>`,
-          )
-          .join('')}
-        </div>
-      `;
+        if (hidden) {
+            this.el.innerHTML = '';
+            this.el.style.display = 'none';
+            return;
+        } else {
+            this.el.style.removeProperty('display');
+        }
+
+        // LP: 2. implement the button HTML with label, image and tooltip for two insert points: MENU and SEARCH_RESULT
+        const activeNavEl: HTMLElement = document.querySelector('.hdtb-msel, .rQEFy');
+
+        switch (this.insPointName) {
+            case 'TOKEN_TOOL_BAR':
+                this.el.innerHTML = `
+          <div>
+          </div>
+                `;
+                break;
+        }
     }
-  }
 
-  public unmount(): void {
-    this.el && this.el.remove();
-  }
-
-  private _createElement() {
-    this.el = document.createElement('div');
-    this.el.style.border = '1px solid #EB9EA4';
-    this.el.style.borderRadius = '8px';
-    this.el.style.marginBottom = '30px';
-    this.el.style.padding = '28px 0 10px 28px';
-    this.el.addEventListener('click', () => {
-      if (!this.state.disabled) {
-        this.state.exec?.(this.state.ctx, this.state);
-      }
-    });
-    this.state.init?.(this.state.ctx, this.state);
-  }
+    public unmount(): void {
+        this.el && this.el.remove();
+    }
+    private _createElement() {
+        this.el = document.createElement('div');
+        // LP: 3. add styles for the element depending on the insertion point
+        if (this.insPointName === 'MENU') {
+            this.el.classList.add('dapplet-widget-menu');
+        } else {
+            this.el.classList.add('dapplet-widget-tool-bar');
+        }
+        // LP end
+        this.el.addEventListener('click', () => {
+            if (!this.state.disabled) {
+                this.state.exec?.(this.state.ctx, this.state);
+            }
+        });
+        this.state.init?.(this.state.ctx, this.state);
+    }
 }

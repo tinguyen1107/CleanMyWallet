@@ -1,6 +1,7 @@
 import { IFeature } from '@dapplets/dapplet-extension';
 import { Button } from './button';
 import { Result } from './result';
+import { Bar } from './bar';
 
 type ContextBuilder = {
     [propName: string]: string;
@@ -15,18 +16,19 @@ export default class GoogleAdapter {
     public exports = (): Exports => ({
         button: this.adapter.createWidgetFactory(Button),
         result: this.adapter.createWidgetFactory(Result),
+        bar: this.adapter.createWidgetFactory(Bar),
     });
 
     // LP: 1. implement communication between dapplets and pages
     public config = {
         // TOKEN
-        TOKENS_TOOL_BAR: {
+        TOKEN_TOOL_BAR: {
             containerSelector: '#app-container',
-            contextSelector: '.left > div > .token-box',
+            contextSelector: '.left',
             insPoints: {
-                HIDE_TOKEN_BUTTON: {
-                    selector: '.token-box > div > div.balance',
-                    insert: 'begin',
+                TOKEN_TOOL_BAR: {
+                    selector: '.tokens',
+                    insert: 'end',
                 },
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,6 +54,23 @@ export default class GoogleAdapter {
                 title: 'title ne',
                 link: 'link ne',
                 insertPoint: searchNode,
+            }),
+        },
+        REMOVE_TOKEN_BUTTON: {
+            containerSelector: '#app-container',
+            contextSelector: '.left > div > .token-box',
+            insPoints: {
+                REMOVE_TOKEN_BUTTON: {
+                    selector: '.token-box > div > div.balance',
+                    insert: 'start',
+                },
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            contextBuilder: (searchNode: any): ContextBuilder => ({
+                id: 'id-ne',
+                ftContracId: searchNode.querySelector('.desc > span').title,
+                link: 'link ne',
+                insertPoint: searchNode.querySelector('.desc > span').title,
             }),
         },
         SHOW_ALL_BUTTON: {

@@ -1,6 +1,7 @@
-import {} from '@dapplets/dapplet-extension';
+import { } from '@dapplets/dapplet-extension';
 import EXAMPLE_IMG from './assets/icons/ex08.png';
 import HIDE_ICON from './assets/icons/hide-icon.png';
+import TRASH_ICON from './assets/icons/trash-icon.png';
 import GRAY_IMG from './assets/icons/ex08-gray.png';
 import GOOGLE_IMG from './assets/icons/ex08-quatro.png';
 import HI_GIF from './assets/imgs/giphy.gif';
@@ -20,9 +21,10 @@ export default class NearWalletFeature {
     // LP: insert the correct adapter
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     @Inject('example-google-adapter.dapplet-base.eth') public adapter: any; // LP end
+    private overlay = Core.overlay({ name: 'main', title: 'Example 14' });
 
     activate(): void {
-        const { button, result } = this.adapter.exports;
+        const { button, result, bar } = this.adapter.exports;
 
         console.log('activate');
         hide_hidden_tokens();
@@ -40,6 +42,24 @@ export default class NearWalletFeature {
         });
 
         this.adapter.attachConfig({
+            // TOKEN_TOOL_BAR: (ctx) => {
+            //     hide_hidden_tokens();
+            //     return bar({
+            //         initial: 'SHOW',
+            //         SHOW: {
+            //             label: 'Show all tokens',
+            //             tooltip: 'Show in the alert',
+            //             img: HIDE_ICON,
+            //             exec: Tokens.showAllTokens,
+            //         },
+            //         HIDE: {
+            //             label: 'Hide hidden tokens',
+            //             tooltip: 'Show in the alert',
+            //             img: HIDE_ICON,
+            //             exec: Tokens.hideHiddenTokens,
+            //         },
+            //     });
+            // },
             HIDE_TOKEN_BUTTON: (ctx: any) => {
                 const token_box = ctx.insertPoint;
                 const desc = token_box.querySelector('div > div.desc > span > a');
@@ -64,6 +84,18 @@ export default class NearWalletFeature {
                         img: HIDE_ICON,
                         icon: 'far fa-eye',
                         exec: Tokens.showToken,
+                    },
+                });
+            },
+            REMOVE_TOKEN_BUTTON: (ctx: any) => {
+                return button({
+                    initial: 'DEFAULT',
+                    DEFAULT: {
+                        label: 'hide',
+                        tooltip: 'tip other',
+                        img: TRASH_ICON,
+                        icon: 'fa-solid fa-trash',
+                        exec: this.removeButtonClickHandler,
                     },
                 });
             },
@@ -132,4 +164,40 @@ export default class NearWalletFeature {
             },
         });
     }
+
+    removeButtonClickHandler = async (tweet: any) => {
+        console.log(`this is arg: ${JSON.stringify(tweet)}`);
+        // this.overlay.open();
+
+        // LP: 7. Create new NEAR session or reuse existing
+        const prevSessions = await Core.sessions();
+        const prevSession = prevSessions.find((x) => x.authMethod === 'near/testnet');
+        const session =
+            prevSession ??
+            (await Core.login({ authMethods: ['near/testnet'], target: this.overlay }));
+        // LP end
+
+        // LP: 8. NEAR wallet interaction
+        const wallet = await session.wallet();
+        console.log('Your NEAR address', wallet.accountId);
+        // LP end
+
+        // LP: 9. NEAR contract interaction
+        const contract = await session.contract(tweet.ftContracId, {
+            changeMethods: ['storage_unregister'],
+        });
+
+        contract.account.functionCall(
+            tweet.ftContracId,
+            'storage_unregister',
+            { force: true },
+            undefined,
+            '1',
+        );
+
+        // const tweets = await contract.getTweets({ nearId: wallet.accountId }); // read
+        // console.log('Tweets from NEAR contract', tweets);
+        // await contract.storage_unregister({}); // write
+        // LP end
+    };
 }
