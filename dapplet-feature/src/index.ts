@@ -20,13 +20,13 @@ import * as NFTs from './funcs/nfts';
 export default class NearWalletFeature {
     // LP: insert the correct adapter
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-    @Inject('example-google-adapter.dapplet-base.eth') public adapter: any; // LP end
+    @Inject('clean-my-wallet-adapter.dapplet-base.eth') public adapter: any; // LP end
     private overlay = Core.overlay({ name: 'main', title: 'Example 14' });
 
     activate(): void {
         const { button, result, bar } = this.adapter.exports;
 
-        console.log('activate');
+        console.log('activate', this.adapter);
         hide_hidden_tokens();
         hide_hidden_nft_collection();
         const iconScript = document.createElement('script');
@@ -34,14 +34,25 @@ export default class NearWalletFeature {
         iconScript.setAttribute('src', 'https://kit.fontawesome.com/3954a9e6ce.js');
         iconScript.setAttribute('crossorigin', 'anonymous');
         iconScript.onload = () => {
-            console.log('handle on loaded');
+            console.log('Loaded font awesome');
         };
 
-        window.addEventListener('hashchange', () => {
-            console.log('tinguyen hashchange');
-        });
-
+        console.log('call activate');
         this.adapter.attachConfig({
+            REMOVE_NFT_BUTTON: (ctx: any) => {
+                const urlParsed = document.URL.split('/').slice(-2);
+                console.log('url', urlParsed);
+                return button({
+                    initial: 'DEFAULT',
+                    DEFAULT: {
+                        label: 'Remove',
+                        tooltip: 'Remove this NFT',
+                        img: TRASH_ICON,
+                        icon: 'fa-solid fa-trash',
+                        exec: () => this.removeNFTHandler(urlParsed[0], urlParsed[1]),
+                    },
+                });
+            },
             // TOKEN_TOOL_BAR: (ctx) => {
             //     hide_hidden_tokens();
             //     return bar({
@@ -61,13 +72,15 @@ export default class NearWalletFeature {
             //     });
             // },
             HIDE_TOKEN_BUTTON: (ctx: any) => {
+                console.log('tinguyen before activate token button');
                 const token_box = ctx.insertPoint;
-                const desc = token_box.querySelector('div > div.desc > span > a');
-                if (!desc) return;
+                // const desc = token_box.querySelector('div > div.desc > span > a');
+                // if (!desc) return;
 
                 const title = token_box.querySelector('div.desc > span').getAttribute('title');
                 const hidden_tokens = localStorage.getItem(HIDDEN_TOKENS_KEY);
                 const isHide = hidden_tokens && hidden_tokens.includes(title);
+                console.log('tinguyen activate token button');
 
                 return button({
                     initial: isHide ? 'HIDE' : 'DEFAULT',
@@ -199,5 +212,36 @@ export default class NearWalletFeature {
         // console.log('Tweets from NEAR contract', tweets);
         // await contract.storage_unregister({}); // write
         // LP end
+    };
+
+    removeNFTHandler = async (contractId: string, nftId: string) => {
+        console.log(`this is arg: `, contractId, nftId);
+        // this.overlay.open();
+
+        // LP: 7. Create new NEAR session or reuse existing
+        const prevSessions = await Core.sessions();
+        const prevSession = prevSessions.find((x) => x.authMethod === 'near/testnet');
+        const session =
+            prevSession ??
+            (await Core.login({ authMethods: ['near/testnet'], target: this.overlay }));
+        // LP end
+
+        // LP: 8. NEAR wallet interaction
+        const wallet = await session.wallet();
+        console.log('Your NEAR address', wallet.accountId);
+        // LP end
+
+        // LP: 9. NEAR contract interaction
+        const contract = await session.contract(contractId, {
+            changeMethods: ['nft_transfer'],
+        });
+
+        contract.account.functionCall(
+            contractId,
+            'nft_transfer',
+            { receiver_id: 'black_hole.testnet', token_id: nftId },
+            undefined,
+            '1',
+        );
     };
 }

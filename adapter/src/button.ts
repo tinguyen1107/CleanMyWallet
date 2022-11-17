@@ -42,6 +42,7 @@ export class Button {
         HIDE_TOKEN_BUTTON: 'HIDE_TOKEN_BUTTON',
         SHOW_ALL_BUTTON: 'SHOW_ALL_BUTTON',
         HIDE_NFT_COLLECTION_BUTTON: 'HIDE_NFT_COLLECTION_BUTTON',
+        REMOVE_NFT_BUTTON: 'REMOVE_NFT_BUTTON',
         SHOW_ALL_NFT_COLLECTION_BUTTON: 'SHOW_ALL_NFT_COLLECTION_BUTTON',
         REMOVE_TOKEN_BUTTON: 'REMOVE_TOKEN_BUTTON',
     };
@@ -82,6 +83,20 @@ export class Button {
                     >
                       <i class="${icon}" style="margin-top: 3px"></i>
                     </div>
+                `;
+                break;
+            case 'REMOVE_NFT_BUTTON':
+                this.el.innerHTML = `
+                    <button
+                        class="sc-bdvvtL ifrRMa gray-gray transfer-btn"
+                      style="
+                        margin-top: 15px;
+                      "
+                      ${tooltip ? `title="${tooltip}"` : ''}
+                    >
+                      <i class="${icon}" style="margin-top: 3px; margin-right: 5px; color: rgb(0, 90, 70)"></i>
+                      ${label}
+                    </button>
                 `;
                 break;
             case 'SHOW_ALL_BUTTON':

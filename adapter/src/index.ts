@@ -22,6 +22,23 @@ export default class GoogleAdapter {
     // LP: 1. implement communication between dapplets and pages
     public config = {
         // TOKEN
+        REMOVE_NFT_BUTTON: {
+            containerSelector: '#app-container',
+            contextSelector: '.container',
+            insPoints: {
+                REMOVE_NFT_BUTTON: {
+                    selector: 'button.transfer-btn',
+                    insert: 'end',
+                },
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            contextBuilder: (searchNode: any): ContextBuilder => ({
+                id: 'id-ne',
+                title: 'title ne',
+                link: 'link ne',
+                insertPoint: searchNode,
+            }),
+        },
         TOKEN_TOOL_BAR: {
             containerSelector: '#app-container',
             contextSelector: '.left',
@@ -62,7 +79,7 @@ export default class GoogleAdapter {
             insPoints: {
                 REMOVE_TOKEN_BUTTON: {
                     selector: '.token-box > div > div.balance',
-                    insert: 'start',
+                    insert: 'begin',
                 },
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -204,6 +221,7 @@ export default class GoogleAdapter {
     }
 
     public attachConfig(feature: IFeature): void {
+        console.log('Call attach,', feature);
         this.adapter.attachConfig(feature);
     }
 

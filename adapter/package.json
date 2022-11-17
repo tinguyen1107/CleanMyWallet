@@ -1,5 +1,5 @@
 {
-    "name": "example-google-adapter.dapplet-base.eth",
+    "name": "clean-my-wallet-adapter.dapplet-base.eth",
     "version": "0.2.0",
     "description": "Template project of adapter",
     "main": "lib/index.js",
