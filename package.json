@@ -6,8 +6,9 @@
     "scripts": {
         "postinstall": "concurrently -c \"yellow,magenta\" -n \"adapter,dapplet\" \"cd adapter && npm i\" \"cd dapplet-feature && npm i\"",
         "start": "concurrently -c \"yellow,magenta\" -n \"adapter,dapplet\" \"cd adapter && npm start\" \"cd dapplet-feature && npm start\"",
-        "prettify": "npx prettier --write .",
-        "lint": "npx eslint ."
+        "prettify": "prettier --write ../dapplet-template",
+        "eslint": "eslint ../dapplet-template --ext .ts --fix",
+        "stylelint": "stylelint ../dapplet-template/**/*.{css,scss,module.scss} --fix"
     },
     "repository": {
         "type": "git",
@@ -20,14 +21,19 @@
         "url": "https://github.com/dapplets/dapplet-template/issues"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.11.0",
-        "@typescript-eslint/parser": "^5.11.0",
         "concurrently": "^5.3.0",
-        "eslint": "^8.8.0",
         "eslint-config-airbnb-typescript": "^16.1.0",
-        "eslint-config-prettier": "^8.3.0",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "prettier": "^2.6.2",
+        "prettier-plugin-organize-imports": "^2.3.4",
+        "eslint": "^8.16.0",
+        "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-react": "^7.28.0",
-        "prettier": "^2.5.1"
+        "eslint-plugin-react": "^7.30.0",
+        "stylelint": "^14.14.1",
+        "stylelint-config-standard-scss": "^6.1.0",
+        "stylelint-order": "^5.0.0",
+        "stylelint-scss": "^4.3.0"
     }
 }

@@ -24,6 +24,7 @@ export default class NearWalletFeature {
     private overlay = Core.overlay({ name: 'main', title: 'Example 14' });
 
     activate(): void {
+        console.log('activate', this.adapter);
         const { button, result, bar } = this.adapter.exports;
 
         console.log('activate', this.adapter);

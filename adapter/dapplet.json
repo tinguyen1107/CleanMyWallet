@@ -1,11 +1,19 @@
 {
-    "name": { "$ref": "package.json#/name" },
+    "name": {
+        "$ref": "package.json#/name"
+    },
     "branch": "default",
-    "version": { "$ref": "package.json#/version" },
+    "version": {
+        "$ref": "package.json#/version"
+    },
     "type": "ADAPTER",
-    "title": "Google Adapter",
-    "description": { "$ref": "package.json#/description" },
-    "main": { "$ref": "package.json#/main" },
+    "title": "Near wallet adapter",
+    "description": {
+        "$ref": "package.json#/description"
+    },
+    "main": {
+        "$ref": "package.json#/main"
+    },
     "contextIds": [
         "wallet.testnet.near.org",
         "wallet.mainnet.near.org",
@@ -14,6 +22,6 @@
         "www.google.com"
     ],
     "dependencies": {
-        "dynamic-adapter.dapplet-base.eth": "0.6.13"
+        "dynamic-adapter.dapplet-base.eth": "0.6.22"
     }
 }

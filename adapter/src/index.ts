@@ -12,7 +12,7 @@ type Exports = {
 };
 
 @Injectable
-export default class GoogleAdapter {
+export default class NearWalletAdapter {
     public exports = (): Exports => ({
         button: this.adapter.createWidgetFactory(Button),
         result: this.adapter.createWidgetFactory(Result),
